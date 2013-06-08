@@ -18,9 +18,9 @@ class Default < Thor
     end.each do |cmd| system 'vagrant', cmd, BUILDER_VM  end
   end
 
-  desc "kernel_list", "list available configurations for kernel compilation"
-  def kernel_list
-      list = YAML::load_file("kernel_configs/kernels.yml")
+  desc "flavor_list", "list available configurations for kernel compilation and rootfs configuration"
+  def flavor_list
+      list = YAML::load_file("flavor_configs/flavors.yml")
       list.each do |config|
         puts "#{config["name"]} : #{config["desc"]}"
       end
