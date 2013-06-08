@@ -1,0 +1,6 @@
+.DS_Store
+*.swp
+*.swo
+.bundle
+.vagrant
+vendor
