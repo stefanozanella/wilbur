@@ -1,4 +1,9 @@
-# OpenWRT Build and Provisioning Orchestration
+# OpenWRT Builder
+
+This project provides a comprehensive infrastructure for building and
+provisioning OpenWRT images easily and in an automated fashion.
+
+For more information about OpenWRT, please check http://openwrt.org
 
 ## Project structure
 * `kernel_configs`: contains the different kernel configurations used to build
