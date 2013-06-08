@@ -18,6 +18,17 @@ class Default < Thor
     end.each do |cmd| system 'vagrant', cmd, BUILDER_VM  end
   end
 
+  desc "kernel_list", "list available configurations for kernel compilation"
+  def kernel_list
+      list = YAML::load_file("kernel_configs/kernels.yml")
+      list.each do |config|
+        puts "#{config["name"]} : #{config["desc"]}"
+      end
+  rescue Exception => e
+      puts e.message
+      exit 1
+  end
+
   no_commands do
     BUILDER_VM = 'builder'.freeze
   end
