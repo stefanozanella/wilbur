@@ -34,4 +34,4 @@ pick the name and pass it over to the `build` task.
 
 **NOTE**: At the moment, when the build process ends, nothing is done to gather
 the produced files. For now, you have to ssh into the **builder** box and find
-the kernel and rootfs under `attitude_adjustment/bin/ar71xx/`.
+the kernel and rootfs under `attitude_adjustment/bin/<arch>/`.
