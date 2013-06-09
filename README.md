@@ -18,7 +18,7 @@ For more information about OpenWRT, please check http://openwrt.org
 
 ### Declaring OpenWRT release to build
 In the project's root folder there's a file named `openwrt_release`. This file
-must contain a single line containing the name of the specific OpenWRT release
+must contain a single line with the name of the specific OpenWRT release
 you want to build (e.g. `attitude_adjustment`). If you want to build bleeding
 edge, just set it to `openwrt`.
 
@@ -29,7 +29,7 @@ from
 
 `git://nbd.name/<openwrt_release>.git`
 
-To provide this same name to Puppet during the provisioning phase, a
+To provide this same name to Puppet during provisioning, some
 "pre-provisioning" is done prior to running Puppet; during this step, a custom
 executable fact will be added to the **building machine**, named
 `openwrt_release`, that will read the content of the file in the shared project
