@@ -1,6 +1,12 @@
 # -*- mode: ruby -*-
 # vi: ft=ruby
 
+# Adds a `openwrt_relase` custom fact, fetched from projects root
+$add_facter = <<SCRIPT
+  sudo mkdir -p /etc/facter/facts.d
+  sudo cp /vagrant/provisioning/scripts/openwrt_release.sh /etc/facter/facts.d
+SCRIPT
+
 Vagrant.configure("2") do |config|
   config.vm.define :builder do |builder|
     builder.vm.box = "ubuntu-base"
@@ -14,25 +20,27 @@ Vagrant.configure("2") do |config|
 
     builder.ssh.username = "ops"
 
+    builder.vm.provision :shell, :inline => $add_facter
+
     builder.vm.provision :puppet do |puppet|
-      puppet.manifests_path = "manifests"
+      puppet.manifests_path = "provisioning/manifests"
       puppet.manifest_file  = "builder.pp"
     end
   end
 
   config.vm.define :provisioner do |provisioner|
-    builder.vm.box = "centos-base"
+    provisioner.vm.box = "centos-base"
 
-    builder.vm.hostname = "openwrt.provisioning.derecom.it"
+    provisioner.vm.hostname = "openwrt.provisioning.derecom.it"
 
-    builder.vm.provider :virtualbox do |vbox|
+    provisioner.vm.provider :virtualbox do |vbox|
       vbox.customize ["modifyvm", :id, "--memory", "1024"]
     end
 
-    builder.ssh.username = "ops"
+    provisioner.ssh.username = "ops"
 
-    builder.vm.provision :puppet do |puppet|
-      puppet.manifests_path = "manifests"
+    provisioner.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "provisioning/manifests"
       puppet.manifest_file  = "provisioner.pp"
     end
   end

@@ -16,6 +16,26 @@ For more information about OpenWRT, please check http://openwrt.org
 
 ## Usage
 
+### Declaring OpenWRT release to build
+In the project's root folder there's a file named `openwrt_release`. This file
+must contain a single line containing the name of the specific OpenWRT release
+you want to build (e.g. `attitude_adjustment`). If you want to build bleeding
+edge, just set it to `openwrt`.
+
+#### Internals
+The name specified in `openwrt_release` is used to build the URL of the source
+repository to clone locally (so format matters). Basically, source will be fetched
+from
+
+`git://nbd.name/<openwrt_release>.git`
+
+To provide this same name to Puppet during the provisioning phase, a
+"pre-provisioning" is done prior to running Puppet; during this step, a custom
+executable fact will be added to the **building machine**, named
+`openwrt_release`, that will read the content of the file in the shared project
+folder. This way, you can specify the release you want to use once and not
+worry about synchronizing names between building app and provisioning manifest.
+
 ### Building a specific flavor
 You can easily start a build by invoking the `build` task:
 

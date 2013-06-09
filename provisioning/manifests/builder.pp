@@ -1,6 +1,4 @@
-$openwrt_release = 'attitude_adjustment'
-
-$openwrt_source_url = "git://nbd.name/${openwrt_release}.git"
+$openwrt_source_url = "git://nbd.name/${::openwrt_release}.git"
 
 $openwrt_build_deps = [
   'subversion',
@@ -14,7 +12,7 @@ $openwrt_build_deps = [
   'build-essential',
 ]
 
-$buildroot_path = "/home/ops/${openwrt_release}"
+$buildroot_path = "/home/ops/${::openwrt_release}"
 
 package { $openwrt_build_deps:
   ensure => installed,

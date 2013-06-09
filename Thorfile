@@ -35,7 +35,7 @@ class Default < Thor
     Net::SSH.start('', nil, ssh_options_for(BUILDER_VM)) do |builder|
       puts "Preparing building environment"
       builder.exec! "
-        cd attitude_adjustment
+        cd #{openwrt_release}
         git pull
         ./scripts/feeds update -a
         ./scripts/feeds install -a" do |channel, stream, data|
@@ -43,11 +43,11 @@ class Default < Thor
       end
 
       puts "Syncing OpenWRT dot config file"
-      builder.exec! "cp #{File.join(VAGRANT_SHARE_ROOT, 'flavor_configs', dot_config)} #{File.join('attitude_adjustment', '.config')}"
+      builder.exec! "cp #{File.join(VAGRANT_SHARE_ROOT, 'flavor_configs', dot_config)} #{File.join(openwrt_release, '.config')}"
 
       puts "Starting image build process"
       builder.exec! "
-        cd attitude_adjustment
+        cd #{openwrt_release}
         make clean
         make -j 2" do |channel, stream, data|
         $stdout << data
@@ -113,6 +113,11 @@ class Default < Thor
         "UserKnownHostsFile" => :user_known_hosts_file,
         "IdentitiesOnly" => :keys_only,
       }
+    end
+
+    def openwrt_release
+      @openwrt_release = File.read('openwrt_release') unless @openwrt_release
+      @openwrt_release
     end
   end
 end
