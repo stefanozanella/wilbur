@@ -15,7 +15,6 @@ Vagrant.configure("2") do |config|
 
     builder.vm.provider :virtualbox do |vbox|
       vbox.customize ["modifyvm", :id, "--memory", "1024"]
-      vbox.customize ["modifyvm", :id, "--cpus", "2"]
     end
 
     builder.ssh.username = "ops"

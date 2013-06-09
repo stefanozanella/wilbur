@@ -8,6 +8,7 @@ $openwrt_build_deps = [
   'unzip',
   'gettext',
   'xsltproc',
+  'bison',
   'libxml-parser-perl',
   'build-essential',
 ]

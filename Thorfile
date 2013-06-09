@@ -23,16 +23,22 @@ class Default < Thor
     The name specified in the first column can be used as an argument for the
     build command.
   EOS
+  option :verbose, :type => :boolean, :aliases => :v
+  option :nuke, :type => :boolean, :aliases => :n
   def build(flavor)
     if flavors.select { |f| f["name"] == flavor}.empty?
       puts "No flavor found matching `#{flavor}`"
       exit 1
     end
 
+    verbose = options[:verbose] ? "V=s" : ""
+
     dot_config = flavors.select { |f| f["name"] == flavor }.first["config_file"]
-    invoke :prepare_builder, []
+    invoke :prepare_builder, [], []
 
     Net::SSH.start('', nil, ssh_options_for(BUILDER_VM)) do |builder|
+      builder.exec! "cd #{openwrt_release}; make distclean" if options[:nuke]
+
       puts "Preparing building environment"
       builder.exec! "
         cd #{openwrt_release}
@@ -49,7 +55,7 @@ class Default < Thor
       builder.exec! "
         cd #{openwrt_release}
         make clean
-        make -j 2" do |channel, stream, data|
+        make #{verbose}" do |channel, stream, data|
         $stdout << data
       end
 
