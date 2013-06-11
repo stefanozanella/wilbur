@@ -14,10 +14,10 @@ For more information about OpenWRT, please check http://openwrt.org
     more understanding over each configuration and for referencing them more
     easily by the user.
   * `<flavor_name>/`: contains all files related to the specific flavor
-    * `dot_config`: Buildroot configuration file used to specify kernel
-      configuration and packages to compile/install in the final image
-    * `patches/`: contains all diff patches to be applied to the OpenWRT's
-      source code prior to building it
+      * `dot_config`: Buildroot configuration file used to specify kernel
+        configuration and packages to compile/install in the final image
+      * `patches/`: contains all diff patches to be applied to the OpenWRT's
+        source code prior to building it
 * `provisioning/`: contains the resources used to provision project's virtual
   machines
   * `manifests/`: contains the Puppet manifests used to bring up the building and
