@@ -79,6 +79,67 @@ class Default < Thor
     end
   end
 
+  desc "config FLAVOR", "configure image configuration interactively"
+  long_desc <<-EOS
+    Starts an interactive session that allows you to configure kernel features
+    and installed packages in the final image and save this configuration in a
+    flavor.
+
+    Under the hood, it runs `make menuconfig` on the bulding machine, so the
+    usage of this command is that of every kernel interactive configuration.
+
+    Basically, this command supports three modes:
+    * Create a new flavor from scratch (starts from a new .config)
+    * Update an existing flavor (useful to tune your configuration incrementally)
+    * Create a new flavor starting from another configuration (useful for creating
+      slightly different variants of the same flavor, e.g. one with more or less
+      packages than the starting one)
+    To create a new flavor from an existing one, just add `-c <flavor>` to clone
+    flavor <flavor>.
+  EOS
+  def config(flavor)
+    # if flavor <name> does not exists
+    #   if cloning
+    #     copy <clone>/dot_config into <name>/
+    #   else
+    #     create directory <name>
+    #
+    # backup .config
+    # if flavors/<name>/dot_config exists
+    #   copy to .config
+    #
+    # make menuconfig
+    # copy .config to flavors/<name>/dot_config
+    # restore previous .config
+
+    if flavors.select { |f| f["name"] == flavor}.empty?
+      FileUtils.mkdir File.join('flavors', flavor)
+    end
+    
+    invoke :prepare_builder, [], []
+
+    Net::SSH.start('', nil, ssh_options_for(BUILDER_VM)) do |builder|
+      builder.exec! "
+        cd #{openwrt_release}
+        git pull
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        cp .config .config.bak"
+
+      if File.exists? File.join('flavors', flavor, 'dot_config')
+        builder.exec! "cp #{File.join(VAGRANT_SHARE_ROOT, 'flavors', flavor, 'dot_config')} #{File.join(openwrt_release, '.config')}"
+      end
+
+      builder.exec! "
+        cd #{openwrt_release}
+        make menuconfig" do |channel, stream, data|
+        $stdout << data
+      end
+
+      puts "Build finished."
+    end
+  end
+
   desc "prepare_builder", "prepares builder VM for subsequent use"
   def prepare_builder
     case `vagrant status #{BUILDER_VM}`
