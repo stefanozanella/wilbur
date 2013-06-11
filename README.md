@@ -1,4 +1,4 @@
-# OpenWRT Builder
+# Wilbur: Your OpenWRT Build Assistant
 
 This project provides a comprehensive infrastructure for building and
 provisioning OpenWRT images easily and in an automated fashion.

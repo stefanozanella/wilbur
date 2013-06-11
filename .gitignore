@@ -3,4 +3,6 @@
 *.swo
 .bundle
 .vagrant
+pkg
 vendor
+Gemfile.lock
