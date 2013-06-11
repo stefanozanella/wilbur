@@ -8,16 +8,21 @@ For more information about OpenWRT, please check http://openwrt.org
 ## Project structure
 * `openwrt_release`: here you specify the name of the release targeted for
   build and deployment
-* `flavor_configs`: contains the different kernel and rootfs configurations used
+* `flavors/`: contains the different kernel and rootfs configurations used
   to build working OpenWRT images
-  * `flavor.yml`: serves as a db of flavor configurations. Used to provide
+  * `flavors.yml`: serves as a db of flavor configurations. Used to provide
     more understanding over each configuration and for referencing them more
     easily by the user.
-* `provisioning`: contains the resources used to provision project's virtual
+  * `<flavor_name>/`: contains all files related to the specific flavor
+    * `dot_config`: Buildroot configuration file used to specify kernel
+      configuration and packages to compile/install in the final image
+    * `patches/`: contains all diff patches to be applied to the OpenWRT's
+      source code prior to building it
+* `provisioning/`: contains the resources used to provision project's virtual
   machines
-  * `manifests`: contains the Puppet manifests used to bring up the building and
+  * `manifests/`: contains the Puppet manifests used to bring up the building and
     provisioning VMs
-  * `scripts`: contains the scripts used with Vagrant to aid Puppet
+  * `scripts/`: contains the scripts used with Vagrant to aid Puppet
     provisioning
 
 ## Usage

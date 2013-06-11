@@ -24,16 +24,32 @@ class Default < Thor
     build command.
   EOS
   option :verbose, :type => :boolean, :aliases => :v
-  option :nuke, :type => :boolean, :aliases => :n
+  option :nuke,    :type => :boolean, :aliases => :n
   def build(flavor)
     if flavors.select { |f| f["name"] == flavor}.empty?
       puts "No flavor found matching `#{flavor}`"
       exit 1
     end
 
+    if not Dir.exists?(File.join('flavors', flavor))
+      puts <<-EOS
+        Sorry, no directory flavors/#{flavor} exist. Please read how flavors 
+        management work and fix your configuration before proceeding.
+      EOS
+      exit 1
+    end
+
+    dot_config = File.join(flavor, 'dot_config')
+    if not File.exists?(File.join('flavors', dot_config))
+      puts <<-EOS
+        Sorry, flavors/#{flavor}/dot_config file doesn't exist.  Please read how flavors 
+        management work and fix your configuration before proceeding.
+      EOS
+      exit 1
+    end
+
     verbose = options[:verbose] ? "V=s" : ""
 
-    dot_config = flavors.select { |f| f["name"] == flavor }.first["config_file"]
     invoke :prepare_builder, [], []
 
     Net::SSH.start('', nil, ssh_options_for(BUILDER_VM)) do |builder|
@@ -49,7 +65,7 @@ class Default < Thor
       end
 
       puts "Syncing OpenWRT dot config file"
-      builder.exec! "cp #{File.join(VAGRANT_SHARE_ROOT, 'flavor_configs', dot_config)} #{File.join(openwrt_release, '.config')}"
+      builder.exec! "cp #{File.join(VAGRANT_SHARE_ROOT, 'flavors', dot_config)} #{File.join(openwrt_release, '.config')}"
 
       puts "Starting image build process"
       builder.exec! "
@@ -87,7 +103,7 @@ class Default < Thor
     VAGRANT_SHARE_ROOT = '/vagrant'.freeze
 
     def flavors
-      YAML::load_file("flavor_configs/flavors.yml")
+      YAML::load_file("flavors/flavors.yml")
     end
 
     def ssh_options_for(host)
