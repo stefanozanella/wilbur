@@ -1,5 +1,10 @@
 $openwrt_source_url = "git://nbd.name/${::openwrt_release}.git"
 
+$user = 'ops'
+$user_home = "/home/${user}"
+
+$buildroot_path = "${user_home}/${::openwrt_release}"
+
 $openwrt_build_deps = [
   'subversion',
   'git-core',
@@ -13,23 +18,21 @@ $openwrt_build_deps = [
   'build-essential',
 ]
 
-$buildroot_path = "/home/ops/${::openwrt_release}"
-
 package { $openwrt_build_deps:
   ensure => installed,
-  before => Exec['checkout buildroot'],
+  before => Exec['buildroot_init'],
 }
 
-user { 'ops':
+user { $user:
   ensure => present,
-  home   => '/home/ops',
-  groups => 'ops',
+  home   => $user_home,
+  groups => $user,
 }
 
-exec { 'checkout buildroot':
+exec { 'buildroot_init':
   command => "git clone ${openwrt_source_url} ${buildroot_path}",
-  user    => 'ops',
+  user    => $user,
   creates => $buildroot_path,
-  require => User['ops'],
+  require => User[$user],
   path    => ['/bin', '/usr/bin'],
 }

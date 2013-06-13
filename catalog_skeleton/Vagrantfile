@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :builder do |builder|
     builder.vm.box = "ubuntu-base"
 
-    builder.vm.hostname = "openwrt.builders.derecom.it"
+    builder.vm.hostname = "openwrt.builder.wilbur.org"
 
     builder.vm.provider :virtualbox do |vbox|
       vbox.customize ["modifyvm", :id, "--memory", "1024"]
@@ -30,10 +30,10 @@ Vagrant.configure("2") do |config|
   config.vm.define :provisioner do |provisioner|
     provisioner.vm.box = "centos-base"
 
-    provisioner.vm.hostname = "openwrt.provisioning.derecom.it"
+    provisioner.vm.hostname = "openwrt.provisioning.wilbur.org"
 
     provisioner.vm.provider :virtualbox do |vbox|
-      vbox.customize ["modifyvm", :id, "--memory", "1024"]
+      vbox.customize ["modifyvm", :id, "--memory", "512"]
     end
 
     provisioner.ssh.username = "ops"

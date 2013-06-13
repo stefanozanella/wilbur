@@ -1,4 +1,0 @@
----
-- name: ar71xx_nand_3g_usb
-  desc: Minimal image for AR71xx architecture with NAND flash (mostly MikroTik) with support for 3G connectivity over USB
-  type: rootfs
