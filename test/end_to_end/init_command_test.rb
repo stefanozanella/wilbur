@@ -13,7 +13,7 @@ describe "wilbur init" do
   end
 
   it "initializes a Wilbur catalog in the current directory" do
-    Wilbur::CLI.start %w{ init }
+    capture_io { Wilbur::CLI.start %w{ init } }
 
     assert File.exist?("Gemfile"), "Gemfile is missing"
     assert File.exist?("Vagrantfile"), "Vagrantfile is missing"
