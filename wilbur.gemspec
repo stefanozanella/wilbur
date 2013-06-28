@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.version           = Wilbur::Version
   s.summary           = "Wilbur is a CLI tool that automates OpenWRT building process."
   s.homepage          = "https://github.com/stefanozanella/wilbur"
-  s.email             = ["zanella.stefano@gmail.com"]
   s.authors           = ["Stefano Zanella"]
+  s.email             = ["zanella.stefano@gmail.com"]
 
   s.files             = `git ls-files`.split($/)
   s.executables       = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "minitest"
   s.add_development_dependency "minitest-filesystem"
+  s.add_development_dependency "coveralls"
 
   s.description = %s{
     Wilbur is primarly a wrapper around OpenWRT Buildroot.

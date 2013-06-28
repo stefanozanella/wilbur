@@ -1,5 +1,10 @@
 # Wilbur: Your OpenWRT Build Assistant
 
+[![Gem Version](https://badge.fury.io/rb/wilbur.png)](http://badge.fury.io/rb/wilbur)
+[![Build Status](https://travis-ci.org/stefanozanella/wilbur.png?branch=master)](https://travis-ci.org/stefanozanella/wilbur)
+[![Code Climate](https://codeclimate.com/github/stefanozanella/wilbur.png)](https://codeclimate.com/github/stefanozanella/wilbur)
+[![Coverage Status](https://coveralls.io/repos/stefanozanella/wilbur/badge.png)](https://coveralls.io/r/stefanozanella/wilbur)
+
 This project provides a comprehensive infrastructure for building and
 provisioning OpenWRT images easily and in an automated fashion.
 
@@ -91,3 +96,9 @@ Also, additional options are available for the `build` command:
 **NOTE**: At the moment, when the build process ends, nothing is done to gather
 the produced files. For now, you have to ssh into the **builder** box and find
 the kernel and rootfs under `attitude_adjustment/bin/<arch>/`.
+
+## Changelog
+
+### 0.0.1
+
+* Introduce layout database generator
