@@ -99,6 +99,10 @@ the kernel and rootfs under `attitude_adjustment/bin/<arch>/`.
 
 ## Changelog
 
+### 0.0.2
+
+* Add `wilbur` executable
+
 ### 0.0.1
 
 * Introduce layout database generator

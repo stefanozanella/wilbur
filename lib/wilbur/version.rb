@@ -1,3 +1,3 @@
 module Wilbur
-  Version = VERSION = '0.0.1'.freeze
+  Version = VERSION = '0.0.2'.freeze
 end
